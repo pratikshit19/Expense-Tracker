@@ -21,7 +21,7 @@ int calculateMonthCount(int startYear, startMonth, currentYear, currentMonth) {
 }
 
 //get current month name
-String getCurrentMonthName() {
+String getCurrentMonthName(int currentDisplayedMonth) {
   DateTime now = DateTime.now();
   List<String> months = [
     "JAN",

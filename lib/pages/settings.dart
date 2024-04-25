@@ -1,4 +1,3 @@
-import "package:expense_tracker/pages/home_page.dart";
 import "package:flutter/material.dart";
 
 class MySettings extends StatefulWidget {
@@ -61,8 +60,8 @@ class _MySettingsState extends State<MySettings> {
                               isSwitched = value;
                             });
                           },
-                          activeTrackColor: Colors.lightGreenAccent,
-                          activeColor: Colors.green,
+                          activeTrackColor: Colors.lightBlueAccent,
+                          activeColor: Colors.blueAccent,
                         ),
                       ),
                     ),

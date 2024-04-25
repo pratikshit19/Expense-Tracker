@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController amountController = TextEditingController();
+  int currentDisplayedMonth = DateTime.now().month;
 
   //futures to load graph data
   Future<Map<String, double>>? _monthlyTotalFuture;
@@ -48,20 +49,24 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.black,
-        title: const Text(
-          "New Expense",
-          style: TextStyle(color: Colors.white),
+        backgroundColor: Colors.grey.shade900,
+        title: const Center(
+          child: Text(
+            "New Expense",
+            style: TextStyle(color: Colors.blueAccent),
+          ),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              style: const TextStyle(color: Colors.white),
               controller: nameController,
               decoration: const InputDecoration(
                   hintText: "Name", hintStyle: TextStyle(color: Colors.white)),
             ),
             TextField(
+              style: const TextStyle(color: Colors.white),
               controller: amountController,
               decoration: const InputDecoration(
                   hintText: "Amount",
@@ -88,11 +93,11 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
         title: const Center(
             child: Text(
           "Edit",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.blueAccent),
         )),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -126,7 +131,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.grey.shade900,
         title: const Center(
             child: Text(
           "Delete?",
@@ -165,7 +170,7 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
           backgroundColor: Colors.black,
           floatingActionButton: FloatingActionButton(
-            backgroundColor: const Color.fromRGBO(12, 77, 223, 0.612),
+            backgroundColor: Colors.blueAccent,
             foregroundColor: Colors.white,
             onPressed: openNewExpenseBox,
             child: const Icon(Icons.add),
@@ -201,12 +206,6 @@ class _HomePageState extends State<HomePage> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.blueAccent),
                           ),
-                          Text(
-                            getCurrentMonthName(),
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
                         ],
                       ),
                     );
@@ -222,6 +221,18 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(15.0),
               child: ListView(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SizedBox(
+                      height: 125,
+                      width: 125,
+                      child:
+                          Center(child: Image.asset("images/accounting.png")),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const ListTile(
                     leading: Icon(
                       Icons.home,
@@ -259,11 +270,22 @@ class _HomePageState extends State<HomePage> {
           ),
           body: Padding(
             padding: const EdgeInsets.only(
-              top: 25,
+              top: 15,
             ),
             child: SafeArea(
               child: Column(
                 children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 220),
+                    child: Text(
+                      textAlign: TextAlign.left,
+                      "Yearly Data",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   //GRAPH UI
                   SizedBox(
                     height: 250,
@@ -310,6 +332,60 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(
                     height: 25,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 100),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                currentDisplayedMonth =
+                                    (currentDisplayedMonth - 1) % 12;
+                              });
+                            },
+                          ),
+                          const SizedBox(
+                            width: 35,
+                          ),
+                          Card(
+                            elevation: 0.5,
+                            color: Colors.black,
+                            child: Text(
+                              getCurrentMonthName(currentDisplayedMonth),
+                              style: const TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 35,
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                currentDisplayedMonth =
+                                    (currentDisplayedMonth + 1) % 12;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
 
                   //EXPENSE LIST UI
@@ -388,7 +464,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: const Text(
         'Save',
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.blueAccent),
       ),
     );
   }
@@ -426,7 +502,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: const Text(
         'Save',
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.blueAccent),
       ),
     );
   }
@@ -446,7 +522,7 @@ class _HomePageState extends State<HomePage> {
       },
       child: const Text(
         'Delete',
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.red),
       ),
     );
   }
